@@ -93,13 +93,24 @@ def prepare_embedding_retrieval(glove_file, vocab_size=100000):
     cnt = 0
     words = []
     embeddings = {}
+    vector_dim = None
 
     # only read first 100,000 words for fast retrieval
     with open(glove_file, 'r', encoding='utf-8') as fin:
         for line in fin:
             items = line.strip().split()
+            if len(items) < 2:
+                continue
+            try:
+                vector = [float(x) for x in items[1:]]
+            except ValueError:
+                continue
+            if vector_dim is None:
+                vector_dim = len(vector)
+            elif len(vector) != vector_dim:
+                continue
             words.append(items[0])
-            embeddings[items[0]] = [float(x) for x in items[1:]]
+            embeddings[items[0]] = vector
 
             cnt += 1
             if cnt == vocab_size:
@@ -108,7 +119,8 @@ def prepare_embedding_retrieval(glove_file, vocab_size=100000):
     vocab = {w: idx for idx, w in enumerate(words)}
     ids_to_tokens = {idx: w for idx, w in enumerate(words)}
 
-    vector_dim = len(embeddings[ids_to_tokens[0]])
+    if not ids_to_tokens:
+        raise ValueError("No valid GloVe vectors were loaded; check the --glove_embs path.")
     emb_matrix = np.zeros((vocab_size, vector_dim))
     for word, v in embeddings.items():
         if word == '<unk>':
