@@ -47,10 +47,13 @@ logger = logging.getLogger(__name__)
 class DocumentDatabase:
     def __init__(self, reduce_memory=False):
         if reduce_memory:
-            self.temp_dir = TemporaryDirectory()
+            local_tmp = os.path.join(os.getcwd(), 'tmp_shelve')
+            os.makedirs(local_tmp, exist_ok=True)
+            self.temp_dir = TemporaryDirectory(dir=local_tmp)
+
             self.working_dir = Path(self.temp_dir.name)
             self.document_shelf_filepath = self.working_dir / 'shelf.db'
-            self.document_shelf = shelve.open('/cache/shelf.db',
+            self.document_shelf = shelve.open(str(self.document_shelf_filepath),
                                               flag='n', protocol=-1)
             self.documents = None
         else:

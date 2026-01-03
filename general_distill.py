@@ -80,16 +80,16 @@ def convert_example_to_features(example, tokenizer, max_seq_length):
     input_ids = tokenizer.convert_tokens_to_ids(tokens)
     masked_label_ids = tokenizer.convert_tokens_to_ids(masked_lm_labels)
 
-    input_array = np.zeros(max_seq_length, dtype=np.int)
+    input_array = np.zeros(max_seq_length, dtype=int)
     input_array[:len(input_ids)] = input_ids
 
-    mask_array = np.zeros(max_seq_length, dtype=np.bool)
+    mask_array = np.zeros(max_seq_length, dtype=bool)
     mask_array[:len(input_ids)] = 1
 
-    segment_array = np.zeros(max_seq_length, dtype=np.bool)
+    segment_array = np.zeros(max_seq_length, dtype=bool)
     segment_array[:len(segment_ids)] = segment_ids
 
-    lm_label_array = np.full(max_seq_length, dtype=np.int, fill_value=-1)
+    lm_label_array = np.full(max_seq_length, dtype=int, fill_value=-1)
     lm_label_array[masked_lm_positions] = masked_label_ids
 
     features = InputFeatures(input_ids=input_array,
@@ -120,25 +120,28 @@ class PregeneratedDataset(Dataset):
         self.temp_dir = None
         self.working_dir = None
         if reduce_memory:
-            self.temp_dir = TemporaryDirectory()
-            self.working_dir = Path('/cache')
+            local_tmp = os.path.join(os.getcwd(), 'tmp_memmap')
+            os.makedirs(local_tmp, exist_ok=True)
+
+            self.temp_dir = TemporaryDirectory(dir=local_tmp)
+            self.working_dir = Path(self.temp_dir.name)
             input_ids = np.memmap(filename=self.working_dir/'input_ids.memmap',
                                   mode='w+', dtype=np.int32, shape=(num_samples, seq_len))
             input_masks = np.memmap(filename=self.working_dir/'input_masks.memmap',
-                                    shape=(num_samples, seq_len), mode='w+', dtype=np.bool)
+                                    shape=(num_samples, seq_len), mode='w+', dtype=bool)
             segment_ids = np.memmap(filename=self.working_dir/'segment_ids.memmap',
-                                    shape=(num_samples, seq_len), mode='w+', dtype=np.bool)
+                                    shape=(num_samples, seq_len), mode='w+', dtype=bool)
             lm_label_ids = np.memmap(filename=self.working_dir/'lm_label_ids.memmap',
                                      shape=(num_samples, seq_len), mode='w+', dtype=np.int32)
             lm_label_ids[:] = -1
             is_nexts = np.memmap(filename=self.working_dir/'is_nexts.memmap',
-                                 shape=(num_samples,), mode='w+', dtype=np.bool)
+                                 shape=(num_samples,), mode='w+', dtype=bool)
         else:
             input_ids = np.zeros(shape=(num_samples, seq_len), dtype=np.int32)
-            input_masks = np.zeros(shape=(num_samples, seq_len), dtype=np.bool)
-            segment_ids = np.zeros(shape=(num_samples, seq_len), dtype=np.bool)
+            input_masks = np.zeros(shape=(num_samples, seq_len), dtype=bool)
+            segment_ids = np.zeros(shape=(num_samples, seq_len), dtype=bool)
             lm_label_ids = np.full(shape=(num_samples, seq_len), dtype=np.int32, fill_value=-1)
-            is_nexts = np.zeros(shape=(num_samples,), dtype=np.bool)
+            is_nexts = np.zeros(shape=(num_samples,), dtype=bool)
 
         logging.info("Loading training examples for epoch {}".format(epoch))
 
@@ -392,7 +395,7 @@ def main():
             train_sampler = RandomSampler(epoch_dataset)
         else:
             train_sampler = DistributedSampler(epoch_dataset)
-        train_dataloader = DataLoader(epoch_dataset, sampler=train_sampler, batch_size=args.train_batch_size)
+        train_dataloader = DataLoader(epoch_dataset, sampler=train_sampler, batch_size=args.train_batch_size, num_workers=4, pin_memory=True)
 
         tr_loss = 0.
         tr_att_loss = 0.
