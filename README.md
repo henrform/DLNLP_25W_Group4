@@ -3,6 +3,24 @@ Reproduction
 
 This is a clone of the code provided by the original Authors of TinyBERT. You can find the original code [here](https://github.com/huawei-noah/Pretrained-Language-Model/tree/master/TinyBERT)
 
+Steps to take before running the provided code
+==============================================
+
+First download the english Wikipedia dump from [here](https://meta.wikimedia.org/wiki/Data_dump_torrents#English_Wikipedia). We used the 20251101 version.
+
+```bash
+python -m wikiextractor.WikiExtractor enwiki-20251101-pages-articles-multistream.xml.bz2 --json -o extracted_wiki
+```
+
+```bash
+python prepare_data.py
+```
+
+```bash
+python get_teacher_model.py
+```
+
+
 TinyBERT
 ======== 
 TinyBERT is 7.5x smaller and 9.4x faster on inference than BERT-base and achieves competitive performances in the tasks of natural language understanding. It performs a novel transformer distillation at both the pre-training and task-specific learning stages. The overview of TinyBERT learning is illustrated as follows: 
