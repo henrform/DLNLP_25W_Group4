@@ -1,0 +1,8 @@
+bert_base_uncased/
+tinybert_general_4l/
+tinybert_general_6l/
+
+glove.6B.zip
+glove_embeddings/
+
+glue_data/
