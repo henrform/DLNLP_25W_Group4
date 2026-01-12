@@ -1,8 +1,4 @@
 tmp*
-extracted_wiki
-json_wiki
-wiki_for_bert.txt
-
-bert_base_uncased_teacher
-distilled_tinybert_4l
+data
+models
 .idea
