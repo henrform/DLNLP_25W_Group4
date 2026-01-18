@@ -4,7 +4,7 @@ FT_BERT_BASE_DIR=bert_base_uncased_teacher_RTE/
 TMP_TINYBERT_DIR=quantization/tmp_tinybert_task_distill/
 TASK_DIR=quantization/glue_data/RTE/
 TASK_NAME=RTE
-TINYBERT_DIR=quantization/tinybert_task_distill
+TINYBERT_DIR=quantization/final_tinybert_task_distill
 
 python task_distill.py --pred_distill  \
                        --teacher_model ${FT_BERT_BASE_DIR} \
