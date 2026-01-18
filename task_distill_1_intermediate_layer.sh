@@ -2,7 +2,7 @@
 
 # ${FT_BERT_BASE_DIR}$ contains the fine-tuned BERT-base model.
 
-FT_BERT_BASE_DIR=bert_base_uncased_teacher_RTE/
+FT_BERT_BASE_DIR=quantization/final_rte_teacher/
 GENERAL_TINYBERT_DIR=quantization/tinybert_general_4l/
 TASK_DIR=quantization/glue_data/RTE/
 TASK_NAME=RTE

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FT_BERT_BASE_DIR=bert_base_uncased_teacher_RTE/
+FT_BERT_BASE_DIR=quantization/final_rte_teacher/
 TMP_TINYBERT_DIR=quantization/tmp_tinybert_task_distill/
 TASK_DIR=quantization/glue_data/RTE/
 TASK_NAME=RTE
