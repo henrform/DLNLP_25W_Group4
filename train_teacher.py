@@ -33,16 +33,30 @@ def convert_examples_to_features(examples, label_list, max_seq_length, tokenizer
     features = []
     for ex in examples:
         tokens_a = tokenizer.tokenize(ex.text_a)
-        tokens_b = tokenizer.tokenize(ex.text_b)
-        _truncate_seq_pair(tokens_a, tokens_b, max_seq_length - 3)
-        tokens = ["[CLS]"] + tokens_a + ["[SEP]"] + tokens_b + ["[SEP]"]
-        segment_ids = [0] * (len(tokens_a) + 2) + [1] * (len(tokens_b) + 1)
+        tokens_b = None
+
+        if ex.text_b:
+            tokens_b = tokenizer.tokenize(ex.text_b)
+            _truncate_seq_pair(tokens_a, tokens_b, max_seq_length - 3)
+        else:
+            if len(tokens_a) > max_seq_length - 2:
+                tokens_a = tokens_a[:(max_seq_length - 2)]
+
+        tokens = ["[CLS]"] + tokens_a + ["[SEP]"]
+        segment_ids = [0] * len(tokens)
+
+        if tokens_b:
+            tokens += tokens_b + ["[SEP]"]
+            segment_ids += [1] * (len(tokens_b) + 1)
+
         input_ids = tokenizer.convert_tokens_to_ids(tokens)
         input_mask = [1] * len(input_ids)
+
         padding = [0] * (max_seq_length - len(input_ids))
         input_ids += padding
         input_mask += padding
         segment_ids += padding
+
         label_id = label_map[ex.label]
         features.append(InputFeatures(input_ids, input_mask, segment_ids, label_id))
     return features
@@ -71,17 +85,47 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     train_examples = []
+
+    is_cola = "CoLA" in args.data_dir
+    is_sst2 = "SST-2" in args.data_dir
+
+    if is_cola or is_sst2:
+        label_list = ["0", "1"]
+    else:
+        label_list = ["entailment", "not_entailment"]
+
+    print(f"Task: {'Single' if (is_cola or is_sst2) else 'Pair'}. Labels: {label_list}")
     with open(os.path.join(args.data_dir, "train.tsv"), "r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t", quotechar=None)
         for i, line in enumerate(reader):
-            if i == 0: continue
-            if len(line) < 4:
+            if i == 0 and "label" in str(line).lower():
                 continue
-            train_examples.append(InputExample(guid=i, text_a=line[1], text_b=line[2], label=line[3]))
 
-    label_list = ["entailment", "not_entailment"]
+            if is_cola:
+                if len(line) < 4: continue
+                guid = i
+                text_a = line[3]
+                text_b = None
+                label = line[1]
+
+            elif is_sst2:
+                if len(line) < 2: continue
+                guid = i
+                text_a = line[0]
+                text_b = None
+                label = line[1]
+
+            else:
+                if len(line) < 4: continue
+                guid = i
+                text_a = line[1]
+                text_b = line[2]
+                label = line[3]
+
+            train_examples.append(InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
+
     tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=True)
-    model = TinyBertForSequenceClassification.from_pretrained(args.bert_model, num_labels=2)
+    model = TinyBertForSequenceClassification.from_pretrained(args.bert_model, num_labels=len(label_list))
     model.to(device)
 
     train_features = convert_examples_to_features(train_examples, label_list, args.max_seq_length, tokenizer)
@@ -111,7 +155,7 @@ def main():
             input_ids, input_mask, segment_ids, label_ids = batch
 
             logits, _, _ = model(input_ids, segment_ids, input_mask)
-            loss = loss_fct(logits.view(-1, 2), label_ids.view(-1))
+            loss = loss_fct(logits.view(-1, len(label_list)), label_ids.view(-1))
 
             loss.backward()
             optimizer.step()

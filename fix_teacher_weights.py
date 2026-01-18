@@ -1,36 +1,41 @@
 import torch
 import os
 
-# Paths
-input_path = "bert_base_uncased_teacher_RTE/pytorch_model_old.bin"
-output_path = "bert_base_uncased_teacher_RTE/pytorch_model.bin"
+model_folders = [
+    "bert-base-uncased-qnli",
+    "bert-base-uncased-sst2",
+    "bert-base-uncased-cola",
+    "bert-base-uncased-rte"
+]
 
-print(f"Processing {input_path}...")
-state_dict = torch.load(input_path, map_location="cpu")
-new_state_dict = {}
-found_classifier = False
+base_dir = "models"
 
-for key, value in state_dict.items():
-    new_key = key
+for folder in model_folders:
+    model_path = os.path.join(base_dir, folder, "pytorch_model.bin")
 
-    # Fix missing 'bert.' prefix for body layers
-    if key.startswith(("encoder.", "embeddings.", "pooler.")):
-        new_key = "bert." + key
+    if not os.path.exists(model_path):
+        print(f"Skipping {folder}: {model_path} not found.")
+        continue
 
-    # Check for classifier head
-    if "classifier" in key:
-        found_classifier = True
-        # Ensure exact match for classifier keys if needed
-        if key in ["classifier.weight", "classifier.bias"]:
-            new_key = key
+    print(f"Fixing layer names for {folder}...")
+    state_dict = torch.load(model_path, map_location="cpu")
+    new_state_dict = {}
+    found_classifier = False
 
-    new_state_dict[new_key] = value
+    for key, value in state_dict.items():
+        new_key = key
 
-# Patch missing classifier if necessary
-if not found_classifier:
-    print("Warning: No classifier found. Initializing random head (accuracy will be random until trained).")
-    new_state_dict["classifier.weight"] = torch.randn(2, 768) * 0.02
-    new_state_dict["classifier.bias"] = torch.zeros(2)
+        if key.startswith(("encoder.", "embeddings.", "pooler.")):
+            new_key = "bert." + key
 
-torch.save(new_state_dict, output_path)
-print(f"Done. Saved to {output_path}")
+        if "classifier" in key:
+            found_classifier = True
+
+        new_state_dict[new_key] = value
+
+    if not found_classifier:
+        print(f"  Note: No classifier found in {folder}. Initializing a default head.")
+        new_state_dict["classifier.weight"] = torch.randn(2, 768) * 0.02
+        new_state_dict["classifier.bias"] = torch.zeros(2)
+
+    torch.save(new_state_dict, model_path)
