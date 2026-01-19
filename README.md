@@ -3,6 +3,16 @@ Reproduction
 
 This is a clone of the repo provided by the original Authors of TinyBERT. You can find the original code [here](https://github.com/huawei-noah/Pretrained-Language-Model/tree/master/TinyBERT) and the paper [here](https://arxiv.org/abs/1909.10351). We tried to preserve the original codebase as much as possible. Some additional scripts are necessary to make the original code work. We still had to modify some parts where the script crashed, most likely due to an old Python version. We also provide a script to run all these steps at once in `reproduction.sh`, but please not, that you still need to manually download the english wikipedia before. For more information about that, refer to the corresponding step below. Please also note that the script itself will run for roughly 7 days on an RTX 4090. All commands are tailored to that GPU. You might need to decrease the batch size if you have less VRAM available.
 
+## Results
+We got within a few percent of the reported scores in the paper, sometimes exceeding them and sometimes falling short. This is maybe due to a different number used for epochs and learning rate depending on the task. We used the values provided by the authors in the original repository.
+
+| Task  | TinyBERT_4 (paper) | TinyBERT_4 (reproduction) | TinyBERT_6 (paper) | TinyBERT_6 (reproduction) |
+|-------|--------------------|---------------------------|--------------------|---------------------------|
+| RTE   | 66.6               |                           | **70.0**           | 69.0                      |
+| SST-2 | 92.6               |                           | **93.1**           | 92.3                      |
+| CoLA  | 44.1               |                           | 51.1               | **54.3**                  |
+| MRPC  | 86.4               |                           | 87.3               | **88.8**                  |
+
 ## Setup and get required data
 
 First, we need to create a conda environment and activate it
@@ -112,12 +122,12 @@ Running the commands below will yield the evaluation results. We achieved slight
 # 4 layer evaluation
 python task_distill.py --do_eval --student_model models/distilled_tinybert_4l_rte --data_dir data/glue_data/RTE --task_name rte --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
 python task_distill.py --do_eval --student_model models/distilled_tinybert_4l_cola --data_dir data/glue_data/CoLA --task_name cola --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
-python task_distill.py --do_eval --student_model models/distilled_tinybert_4l_sst2 --data_dir data/glue_data/SST-2 --task_name sst2 --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
+python task_distill.py --do_eval --student_model models/distilled_tinybert_4l_sst2 --data_dir data/glue_data/SST-2 --task_name sst-2 --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
 python task_distill.py --do_eval --student_model models/distilled_tinybert_4l_mrpc --data_dir data/glue_data/MRPC --task_name mrpc --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
 
 # 6 layer evaluation
 python task_distill.py --do_eval --student_model models/distilled_tinybert_6l_rte --data_dir data/glue_data/RTE --task_name rte --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
 python task_distill.py --do_eval --student_model models/distilled_tinybert_6l_cola --data_dir data/glue_data/CoLA --task_name cola --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
-python task_distill.py --do_eval --student_model models/distilled_tinybert_6l_sst2 --data_dir data/glue_data/SST-2 --task_name sst2 --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
+python task_distill.py --do_eval --student_model models/distilled_tinybert_6l_sst2 --data_dir data/glue_data/SST-2 --task_name sst-2 --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
 python task_distill.py --do_eval --student_model models/distilled_tinybert_6l_mrpc --data_dir data/glue_data/MRPC --task_name mrpc --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
 ```
