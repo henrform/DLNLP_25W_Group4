@@ -2,7 +2,7 @@ import torch
 import os
 
 model_folders = [
-    "bert-base-uncased-qnli",
+    "bert-base-uncased-mrpc",
     "bert-base-uncased-sst2",
     "bert-base-uncased-cola",
     "bert-base-uncased-rte"

@@ -2,7 +2,7 @@ import os
 from transformers import BertModel, BertTokenizer
 
 models_to_download = [
-    "JeremiahZ/bert-base-uncased-qnli",
+    "JeremiahZ/bert-base-uncased-mrpc",
     "JeremiahZ/bert-base-uncased-sst2",
     "JeremiahZ/bert-base-uncased-cola",
     "JeremiahZ/bert-base-uncased-rte"

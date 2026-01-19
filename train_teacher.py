@@ -1,5 +1,5 @@
 # Example command:
-# python train_teacher.py --data_dir glue_data/RTE --bert_model bert_base_uncased_teacher_RTE --output_dir final_rte_teacher --num_train_epochs 5 --train_batch_size 32 --learning_rate 2e-5
+# python train_teacher.py --data_dir glue_data/RTE --bert_model bert-base-uncased-rte --output_dir final_rte_teacher --num_train_epochs 5 --train_batch_size 32 --learning_rate 2e-5
 import os
 import csv
 import argparse
@@ -88,8 +88,9 @@ def main():
 
     is_cola = "CoLA" in args.data_dir
     is_sst2 = "SST-2" in args.data_dir
+    is_mrpc = "MRPC" in args.data_dir
 
-    if is_cola or is_sst2:
+    if is_cola or is_sst2 or is_mrpc:
         label_list = ["0", "1"]
     else:
         label_list = ["entailment", "not_entailment"]
@@ -98,8 +99,7 @@ def main():
     with open(os.path.join(args.data_dir, "train.tsv"), "r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t", quotechar=None)
         for i, line in enumerate(reader):
-            if i == 0 and "label" in str(line).lower():
-                continue
+            if i == 0: continue
 
             if is_cola:
                 if len(line) < 4: continue
@@ -114,6 +114,13 @@ def main():
                 text_a = line[0]
                 text_b = None
                 label = line[1]
+
+            elif is_mrpc:
+                if len(line) < 5: continue
+                guid = i
+                text_a = line[3]
+                text_b = line[4]
+                label = line[0]
 
             else:
                 if len(line) < 4: continue
