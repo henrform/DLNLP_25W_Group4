@@ -1,11 +1,17 @@
 Reproduction
 ============
 
-This is a clone of the code provided by the original Authors of TinyBERT. You can find the original code [here](https://github.com/huawei-noah/Pretrained-Language-Model/tree/master/TinyBERT). We tried to preserve the original codebase as much as possible. Some additional scripts are necessary to make the original code work. We still had to modify some parts where the script crashed, most likely due to an old Python version.
+This is a clone of the code provided by the original Authors of TinyBERT. You can find the original code [here](https://github.com/huawei-noah/Pretrained-Language-Model/tree/master/TinyBERT) and the paper [here](https://arxiv.org/abs/1909.10351). We tried to preserve the original codebase as much as possible. Some additional scripts are necessary to make the original code work. We still had to modify some parts where the script crashed, most likely due to an old Python version.
 
 ## Setup and get required data
 
-Setup folder structure
+First, we need to create a conda environment and activate it
+```bash
+conda env create -f environment.yml
+conda activate DLNLP_25W_Group4
+```
+
+Next, setup folder structure
 ```bash
 mkdir data models
 ```
