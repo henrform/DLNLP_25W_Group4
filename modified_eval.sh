@@ -11,7 +11,7 @@ OUTPUT_DIR=quantization/results/dynamic_8_bits_tinybert_6l_rte/
 
 # ${TINYBERT_DIR} includes the config file, student model and vocab file.
 
-python qtask_distill.py --do_eval \
+python modified_task_distill.py --do_eval \
                        --student_model ${TINYBERT_DIR} \
                        --data_dir ${TASK_DIR} \
                        --task_name ${TASK_NAME} \
