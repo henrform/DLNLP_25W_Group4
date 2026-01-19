@@ -5,7 +5,8 @@ models_to_download = [
     "JeremiahZ/bert-base-uncased-mrpc",
     "JeremiahZ/bert-base-uncased-sst2",
     "JeremiahZ/bert-base-uncased-cola",
-    "JeremiahZ/bert-base-uncased-rte"
+    "JeremiahZ/bert-base-uncased-rte",
+    "google-bert/bert-base-uncased"
 ]
 
 base_output_dir = "models"
