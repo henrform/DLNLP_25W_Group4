@@ -8,7 +8,7 @@ We got within a few percent of the reported scores in the paper, sometimes excee
 
 | Task  | TinyBERT_4 (paper) | TinyBERT_4 (reproduction) | TinyBERT_6 (paper) | TinyBERT_6 (reproduction) |
 |-------|--------------------|---------------------------|--------------------|---------------------------|
-| RTE   | 66.6               |   53.79                   | **70.0**           | 69.0                      |
+| RTE   | 66.6               |   53.79 (way off the expected score)                  | **70.0**           | 69.0                      |
 | SST-2 | 92.6               |                           | **93.1**           | 92.3                      |
 | CoLA  | 44.1               |   59.81 (check if mcc is reported here, if so then i must have done something wrong)            | 51.1               | **54.3**                  |
 | MRPC  | 86.4               |                           | 87.3               | **88.8**                  |
