@@ -84,9 +84,18 @@ python task_distill.py --do_eval --student_model models/distilled_tinybert_6l_mr
 
 
 # Extension
-# 6 layer from bert task-specific distillation
-python task_distill.py --teacher_model models/final_mrpc_teacher --student_model models/tinybert_6l_init_from_bert_mrpc --data_dir data/glue_data/MRPC --task_name mrpc --output_dir models/tmp_tinybert_6l_init_from_bert_mrpc --max_seq_length 128 --train_batch_size 32 --num_train_epochs 10 --aug_train --do_lower_case
-python task_distill.py --pred_distill  --teacher_model models/final_mrpc_teacher --student_model models/tmp_tinybert_6l_init_from_bert_mrpc --data_dir data/glue_data/MRPC --task_name mrpc --output_dir models/tinybert_6l_init_from_bert_mrpc_tsd --aug_train  --do_lower_case --learning_rate 3e-5  --num_train_epochs  3  --eval_step 100 --max_seq_length 128 --train_batch_size 32
+# Smart-init 6 layer models
+python tinybert_6_from_bert.py
+
+# 6 layer smart-init task-specific distillation
+python task_distill.py --teacher_model models/final_rte_teacher --student_model models/tinybert_6l_init_from_bert_rte --data_dir data/glue_data/RTE --task_name RTE --output_dir models/tmp_tinybert_6l_init_from_bert_rte --max_seq_length 128 --train_batch_size 32 --num_train_epochs 10 --aug_train --do_lower_case
+python task_distill.py --pred_distill --teacher_model models/final_rte_teacher --student_model models/tmp_tinybert_6l_init_from_bert_rte --data_dir data/glue_data/RTE --task_name RTE --output_dir models/tinybert_6l_init_from_bert_rte_tsd --aug_train  --do_lower_case --learning_rate 3e-5  --num_train_epochs  3  --eval_step 100 --max_seq_length 128 --train_batch_size 32
+
+python task_distill.py --teacher_model models/final_cola_teacher --student_model models/tinybert_6l_init_from_bert_cola --data_dir data/glue_data/CoLA --task_name cola --output_dir models/tmp_tinybert_6l_init_from_bert_cola --max_seq_length 128 --train_batch_size 32 --num_train_epochs 10 --aug_train --do_lower_case
+python task_distill.py --pred_distill  --teacher_model models/final_cola_teacher --student_model models/tmp_tinybert_6l_init_from_bert_cola --data_dir data/glue_data/CoLA --task_name cola --output_dir models/tinybert_6l_init_from_bert_cola_tsd --aug_train  --do_lower_case --learning_rate 3e-5  --num_train_epochs  3  --eval_step 100 --max_seq_length 128 --train_batch_size 32
 
 python task_distill.py --teacher_model models/final_sst2_teacher --student_model models/tinybert_6l_init_from_bert_sst2 --data_dir data/glue_data/SST-2 --task_name sst-2 --output_dir models/tmp_tinybert_6l_init_from_bert_sst2 --max_seq_length 128 --train_batch_size 32 --num_train_epochs 10 --aug_train --do_lower_case
 python task_distill.py --pred_distill  --teacher_model models/final_sst2_teacher --student_model models/tmp_tinybert_6l_init_from_bert_sst2 --data_dir data/glue_data/SST-2 --task_name sst-2 --output_dir models/tinybert_6l_init_from_bert_sst2_tsd --aug_train  --do_lower_case --learning_rate 3e-5  --num_train_epochs  3  --eval_step 100 --max_seq_length 128 --train_batch_size 32
+
+python task_distill.py --teacher_model models/final_mrpc_teacher --student_model models/tinybert_6l_init_from_bert_mrpc --data_dir data/glue_data/MRPC --task_name mrpc --output_dir models/tmp_tinybert_6l_init_from_bert_mrpc --max_seq_length 128 --train_batch_size 32 --num_train_epochs 10 --aug_train --do_lower_case
+python task_distill.py --pred_distill  --teacher_model models/final_mrpc_teacher --student_model models/tmp_tinybert_6l_init_from_bert_mrpc --data_dir data/glue_data/MRPC --task_name mrpc --output_dir models/tinybert_6l_init_from_bert_mrpc_tsd --aug_train  --do_lower_case --learning_rate 3e-5  --num_train_epochs  3  --eval_step 100 --max_seq_length 128 --train_batch_size 32

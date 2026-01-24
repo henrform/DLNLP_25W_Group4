@@ -6,12 +6,14 @@ This is a clone of the repo provided by the original Authors of TinyBERT. You ca
 ## Results
 We got within a few percent of the reported scores in the paper, sometimes exceeding them and sometimes falling short. This is maybe due to a different number used for epochs and learning rate depending on the task. We used the values provided by the authors in the original repository.
 
-| Task  | TinyBERT_4 (paper) | TinyBERT_4 (reproduction) | TinyBERT_6 (paper) | TinyBERT_6 (reproduction) | TinyBERT_6_bert (no tsd) | TinyBERT_6_bert (tsd) |
-|-------|--------------------|---------------------------|--------------------|---------------------------|--------------------------|-----------------------|
-| RTE   | 66.6               |  53.06                    | **70.0**           | 69.0                      | 47.3                     | 67.5                  | 
-| SST-2 | 92.6               |                           | **93.1**           | 92.3                      | 83.1                     |                       | 
-| CoLA  | 44.1               |  31.74                    | 51.1               | **54.3**                  | 28.2                     | 55.7                  | 
-| MRPC  | 86.4               |                           | 87.3               | **88.8**                  | 17.7                     | 88.0                  | 
+| Model                      | RTE      | SST-2    | CoLA     | MRPC     |
+|----------------------------|----------|----------|----------|----------|
+| TinyBERT_4 (paper)         | 66.6     | 92.6     | 44.1     | 86.4     |
+| TinyBERT_4 (reproduction)  | 53.06    |          | 31.74    |          |
+| TinyBERT_6 (paper)         | **70.0** | **93.1** | 51.1     | 87.3     |
+| TinyBERT_6 (reproduction)  | 69.0     | 92.3     | **54.3** | **88.8** |
+| TinyBERT_6_bert (no tsd)   | 47.3     | 83.1     | 28.2     | 17.7     |
+| TinyBERT_6_bert (tsd)      | 67.5     | 92.0     | 55.7     | 88.0     |
 
 ## Setup and get required data
 

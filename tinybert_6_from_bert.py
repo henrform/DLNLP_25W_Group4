@@ -6,7 +6,8 @@ models_to_process = [
     "final_mrpc_teacher",
     "final_sst2_teacher",
     "final_cola_teacher",
-    "final_rte_teacher"
+    "final_rte_teacher",
+    "bert_base_uncased"
 ]
 
 keep = [0, 2, 4, 6, 8, 10]
