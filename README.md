@@ -14,7 +14,7 @@ We got within a few percent of the reported scores in the paper, sometimes excee
 | TinyBERT_6 (reproduction)             | 69.0     | 92.3     | **54.3** | **88.8** |
 | TinyBERT_6_smart_init_direct (no tsd) | 47.3     | 83.1     | 28.2     | 17.7     |
 | TinyBERT_6_smart_init_direct (tsd)    | 67.5     | 92.0     | 55.7     | 88.0     |
-| TinyBERT_6_smart_init                 | 69.3     |          | 56.2     | 88.5     |
+| TinyBERT_6_smart_init                 | 69.3     | 93.3     | 56.2     | 88.5     |
 
 ## Setup and get required data
 

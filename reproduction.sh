@@ -31,6 +31,10 @@ python pregenerate_training_data.py --train_corpus wiki_for_bert.txt --bert_mode
 python general_distill.py --pregenerated_data json_wiki --teacher_model models/bert-base-uncased --student_model tinybert_4l_config --reduce_memory --do_lower_case --train_batch_size 256 --gradient_accumulation_steps 8 --output_dir models/distilled_tinybert_4l --eval_step 10000
 python general_distill.py --pregenerated_data json_wiki --teacher_model models/bert-base-uncased --student_model tinybert_6l_config --reduce_memory --do_lower_case --train_batch_size 256 --gradient_accumulation_steps 8 --output_dir models/distilled_tinybert_6l --eval_step 10000
 
+# Create copy of last step and remove step count
+cp $(ls -t models/distilled_tinybert_4l/step_*_pytorch_model.bin | head -n1) models/distilled_tinybert_4l/pytorch_model.bin
+cp $(ls -t models/distilled_tinybert_6l/step_*_pytorch_model.bin | head -n1) models/distilled_tinybert_6l/pytorch_model.bin
+
 # Data augmentation
 python data_augmentation.py --pretrained_bert_model models/bert-base-uncased --glove_embs data/glove.840B.300d.txt --glue_dir data/glue_data --task_name RTE
 python data_augmentation.py --pretrained_bert_model models/bert-base-uncased --glove_embs data/glove.840B.300d.txt --glue_dir data/glue_data --task_name SST-2
@@ -39,7 +43,10 @@ python data_augmentation.py --pretrained_bert_model models/bert-base-uncased --g
 
 # Fix downloaded fine-tuned BERT teachers
 python fix_teacher_layers.py
-python finetune_teacher.py
+python finetune_teacher.py --data_dir data/glue_data/RTE --bert_model models/bert-base-uncased-rte --output_dir models/final_rte_teacher --num_train_epochs 5 --train_batch_size 32 --learning_rate 2e-5
+python finetune_teacher.py --data_dir data/glue_data/SST-2 --bert_model models/bert-base-uncased-sst2 --output_dir models/final_sst2_teacher --num_train_epochs 5 --train_batch_size 32 --learning_rate 2e-5
+python finetune_teacher.py --data_dir data/glue_data/CoLA --bert_model models/bert-base-uncased-cola --output_dir models/final_cola_teacher --num_train_epochs 5 --train_batch_size 32 --learning_rate 2e-5
+python finetune_teacher.py --data_dir data/glue_data/MRPC --bert_model models/bert-base-uncased-mrpc --output_dir models/final_mrpc_teacher --num_train_epochs 5 --train_batch_size 32 --learning_rate 2e-5
 
 # Run task-specific distillation
 # 4 layer task-specific distillation
