@@ -15,7 +15,7 @@ keep = [0, 2, 4, 6, 8, 10]
 for model_name in models_to_process:
     teacher_path = os.path.join("models", model_name)
     task_name = model_name.split("_")[1]
-    output_dir = os.path.join("models", f"tinybert_6l_init_from_bert_{task_name}")
+    output_dir = os.path.join("models", f"tinybert_6l_smart_init_direct_{task_name}")
 
     print(f"Processing {teacher_path} -> {output_dir}")
 
