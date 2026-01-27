@@ -1,6 +1,4 @@
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, GPTQConfig
-
-# Note(raoul): Both 4 and 8 bits quantized models deliver same exact accuracy for RTE.
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, GPTQConfig, AutoModel
 
 BITS = 8
 MODEL_PATH = "./quantization/distilled_tinybert_6l_rte/"
@@ -16,15 +14,17 @@ def quantize_model(model_path: str, output_path: str, bits: int) -> None:
         use_exllama=False,
         use_cuda_fp16=True,
         dataset="c4-new",
-        block_name_to_quantize="bert.encoder.layer"
+        block_name_to_quantize="encoder.layer"
     )
 
     print(f"Starting quantization for local model at: '{model_path}'")
-    quantized_model = AutoModelForSequenceClassification.from_pretrained(
+    quantized_model = AutoModel.from_pretrained(
         model_path,
         device_map="auto",
         quantization_config=gptq_config
     )
+
+    print(quantized_model)
 
     quantized_model.save_pretrained(output_path, safe_serialization=False)
     tokenizer.save_pretrained(output_path)

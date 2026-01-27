@@ -824,6 +824,7 @@ def main():
     output_mode = output_modes[task_name]
     label_list = processor.get_labels()
     num_labels = len(label_list)
+    print(f"num_labels: {num_labels}")
 
     tokenizer = BertTokenizer.from_pretrained(args.student_model, do_lower_case=args.do_lower_case)
 
@@ -858,6 +859,62 @@ def main():
         teacher_model.to(device)
 
     student_model = TinyBertForSequenceClassification.from_pretrained(args.student_model, num_labels=num_labels)
+
+    print(student_model)
+
+    #### -------------------------------------------------------------------------------------------------------------------------------------
+
+    # from gptqmodel import GPTQModel
+    # student_model = GPTQModel.from_quantized(
+    #     args.student_model,
+    #     device="cuda:0",
+    #     use_triton=True,
+    #     use_safetensors=False
+    # )
+
+    #### -------------------------------------------------------------------------------------------------------------------------------------
+
+
+    # from transformers import AutoModelForSequenceClassification, AutoConfig
+    # # import torch
+    
+    # # 1. Load the configuration manually
+    # config = AutoConfig.from_pretrained(args.student_model)
+    
+    # # 2. Use the standard Transformers loader which is more 'TinyBERT' friendly
+    # # It will see the 'quantization_config' in your config.json and 
+    # # automatically use the GPTQ backend.
+    # student_model = AutoModelForSequenceClassification.from_pretrained(
+    #     args.student_model,
+    #     config=config,
+    #     device_map="auto",
+    #     torch_dtype=torch.float16, # Most GPTQ kernels require FP16
+    #     use_safetensors=False      # Since you're using .bin files
+    # )
+
+    #### -------------------------------------------------------------------------------------------------------------------------------------
+
+    # from transformers import AutoModelForSequenceClassification, AutoConfig, GPTQConfig
+
+    # # 1. Define the config with the explicit block name for BERT
+    # quantization_config = GPTQConfig(
+    #     bits=8, 
+    #     dataset="c4", # Placeholder, since we are loading, not re-quantizing
+    #     block_name_to_quantize="bert.encoder.layer", # THIS IS THE FIX
+    #     tokenizer=args.student_model # Path to your tokenizer
+    # )
+    
+    # # 2. Load the model using the updated config
+    # student_model = AutoModelForSequenceClassification.from_pretrained(
+    #     args.student_model,
+    #     quantization_config=quantization_config,
+    #     device_map="auto",
+    #     torch_dtype=torch.float16,
+    #     use_safetensors=False
+    # )
+
+    #### -------------------------------------------------------------------------------------------------------------------------------------
+
     student_model.to(device)
     if args.do_eval:
         logger.info("***** Running evaluation *****")
