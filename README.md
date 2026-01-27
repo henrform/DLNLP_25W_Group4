@@ -9,8 +9,8 @@ We got within a few percent of the reported scores in the paper, sometimes excee
 | Model                                                | RTE      | SST-2    | CoLA     | MRPC     |
 |------------------------------------------------------|----------|----------|----------|----------|
 | TinyBERT_4 (paper)                                   | 66.6     | 92.6     | 44.1     | 86.4     |
-| TinyBERT_4 (reproduction, batch size=64, lr=5e-5)    | 53.06    | TODO     | 31.74    | TODO     |
-| TinyBERT_4 (reproduction, batch size=64, lr=1.25e-5) | 58.6     | 91.8     |   TODO   | 85.7     |
+| TinyBERT_4 (reproduction, batch size=64, lr=5e-5)    | 53.06    | TODO     | 31.7     | TODO     |
+| TinyBERT_4 (reproduction, batch size=64, lr=1.25e-5) | 58.6     | 91.8     |  37.2    | 85.7     |
 | TinyBERT_6 (paper)                                   | **70.0** | **93.1** | 51.1     | 87.3     |
 | TinyBERT_6 (reproduction)                            | 69.0     | 92.3     | **54.3** | **88.8** |
 | TinyBERT_6_smart_init_direct (no tsd)                | 47.3     | 83.1     | 28.2     | 17.7     |
