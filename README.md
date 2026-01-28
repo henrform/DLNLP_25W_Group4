@@ -152,7 +152,69 @@ python task_distill.py --do_eval --student_model models/distilled_tinybert_6l_mr
 ```
 
 ## Extensions
-This section describes the extensions made to the original paper.
+### Extending TinyBERT with K-Prune
+
+This repository contains our experimental extension of **TinyBERT** by integrating **K-Prune**, a structured pruning method, to further improve model efficiency while preserving performance. 
+To obtain this our referenced paper and their repository 
+
+### Motivation
+
+TinyBERT significantly reduces model size via knowledge distillation.  
+In this work, we extend TinyBERT by applying **K-Prune** to investigate whether structured pruning can further compress distilled Transformer models without substantial accuracy degradation.
+
+### Approach
+
+- **Base model**: Pretrained TinyBERT
+- **Extension**: K-Prune applied after distillation
+- **Pruned components**:
+  - Attention heads
+  - Feed-forward network (FFN) neurons
+- **Pruning strategy**:
+  - Importance-based structured pruning
+  - Fixed pruning ratio per layer
+
+### References
+
+ **K-Prune**  
+  Seungcheol Park, Hojun Choi, U Kang *Accurate Retraining-free Pruning for Pretrained Encoder-based Language Models*  
+  Paper: https://arxiv.org/pdf/2308.03449  
+  Repository: https://github.com/snudm-starlab/K-prune/tree/main
+
+### Key arguments of K-prune
+
+- ckpt_dir: a path for the directory that contains fine-tuned checkpoints
+- exp_name: the name of experiments for generating an output directory
+- task_name: the name of a task to run, e.g. mrpc, qqp, sst2, stsb, mnli, qnli, squad, or squad_v2
+- model_name: the name of a model to run, e.g. bert-base-uncased or distilbert-base-uncased
+- gpu: the numbering of GPU to use
+- seed: a random seed
+- num_tokens: the number of tokens in a sample dataset
+- constraint: a ratio of FLOPs to be removed
+- lam_pred: a balance coefficient for predictive knowledge
+- lam_rep: a balance coefficient for representational knowledge
+- mu: a balance coefficient for importance scores of attention heads
+- T: a temperature for softmax functions
+- sublayerwise_tuning: whether perform layerwise tuning or not. Remove the argument if you do not use sub-layerwise tuning.
+
+### Running
+We suggest that you run it in a different environment since dependency issues might occur.You change to K-prune directory in order to run. The following code is an example of generating %10 compressed using K-PRUNE.
+´´´  python src/main.py \
+    --model_name ${MODEL_DIR} \
+    --task_name ${TASK_NAME} \
+    --ckpt_dir ${MODEL_DIR} \
+    --exp_name ${OUTPUT_DIR} \
+    --gpu ${GPU} \
+    --seed ${SEED} \
+    --num_tokens 100000 \
+    --constraint 0.1 \
+    --lam_pred 1.0 \
+    --lam_rep 2.5e-4 \
+    --mu 64 \
+    --T 2 \
+    --sublayerwise_tuning
+´´´
+
+
 
 ### Smart initialization for TinyBERT_6
 The original paper used a random initialization for the student model. However, since the encoder layers of TinyBERT_6 have the same size as the ones of BERT, we can copy every second layer and glue those together. This way we get a model with initialized parameters. It's now possible to skip the general distillation entirely and get a model with similar performance to the one in the original paper. Using the smart initialization with both types of distillation presented in the paper yields slightly better scores.
