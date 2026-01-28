@@ -197,7 +197,7 @@ In this work, we extend TinyBERT by applying **K-Prune** to investigate whether 
 
 ### Running
 We suggest that you run it in a different environment since dependency issues might occur.You change to K-prune directory in order to run. The following code is an example of generating %10 compressed using K-PRUNE.
-´´´bash
+```bash
       python src/main.py \
     --model_name ${MODEL_DIR} \
     --task_name ${TASK_NAME} \
@@ -212,7 +212,7 @@ We suggest that you run it in a different environment since dependency issues mi
     --mu 64 \
     --T 2 \
     --sublayerwise_tuning
-´´´
+```
 
 
 
