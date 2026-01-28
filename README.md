@@ -155,7 +155,6 @@ python task_distill.py --do_eval --student_model models/distilled_tinybert_6l_mr
 ### Extending TinyBERT with K-Prune
 
 This section contains our experimental extension of **TinyBERT** by integrating **K-Prune**, a structured pruning method, to further improve model efficiency while preserving performance. 
-To obtain this our referenced paper and their repository 
 
 ### Motivation
 
