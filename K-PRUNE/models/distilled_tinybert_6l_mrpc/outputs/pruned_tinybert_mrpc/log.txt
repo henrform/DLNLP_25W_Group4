@@ -1,0 +1,17 @@
+01/28/2026 22:11:25 - INFO - __main__ - Namespace(model_name='../models/tinybertmodels/distilled_tinybert_6l_mrpc', task_name='mrpc', ckpt_dir='../models/tinybertmodels/distilled_tinybert_6l_mrpc', exp_name='outputs/pruned_tinybert_mrpc', gpu=0, constraint=0.1, seed=0, sublayerwise_tuning=False, num_tokens=100000, lam_pred=1.0, lam_rep=0.00025, mu=64.0, T=1.0)
+01/28/2026 22:11:25 - INFO - __main__ - Seed number: 0
+01/28/2026 22:11:33 - INFO - __main__ - Num sampels: 1878
+01/28/2026 22:11:40 - INFO - __main__ - ( 0) [MHA] 0 heads pruned (6.6s)
+01/28/2026 22:11:43 - INFO - __main__ - ( 0) [FFN] 208 neurons pruned (3.3s)
+01/28/2026 22:11:46 - INFO - __main__ - ( 1) [MHA] 0 heads pruned (3.3s)
+01/28/2026 22:11:50 - INFO - __main__ - ( 1) [FFN] 402 neurons pruned (3.4s)
+01/28/2026 22:11:53 - INFO - __main__ - ( 2) [MHA] 0 heads pruned (3.3s)
+01/28/2026 22:11:56 - INFO - __main__ - ( 2) [FFN] 400 neurons pruned (3.4s)
+01/28/2026 22:12:00 - INFO - __main__ - ( 3) [MHA] 1 heads pruned (3.4s)
+01/28/2026 22:12:03 - INFO - __main__ - ( 3) [FFN] 477 neurons pruned (3.4s)
+01/28/2026 22:12:06 - INFO - __main__ - ( 4) [MHA] 0 heads pruned (3.4s)
+01/28/2026 22:12:10 - INFO - __main__ - ( 4) [FFN] 767 neurons pruned (3.4s)
+01/28/2026 22:12:13 - INFO - __main__ - ( 5) [MHA] 0 heads pruned (3.4s)
+01/28/2026 22:12:17 - INFO - __main__ - ( 5) [FFN] 411 neurons pruned (3.4s)
+01/28/2026 22:12:17 - INFO - __main__ - Time for K-prune: 43.881
+01/28/2026 22:12:20 - INFO - __main__ - * FLOPs: 4.57 -> 4.12 (10.0025%)| acc: 0.8725

@@ -1,0 +1,34 @@
+01/28/2026 21:51:53 - INFO - __main__ - Namespace(model_name='../models/tinybertmodels/distilled_tinybert_6l_sst2', task_name='sst2', ckpt_dir='../models/tinybertmodels/distilled_tinybert_6l_sst2', exp_name='outputs/pruned_tinybert_sst2', gpu=0, constraint=0.3, seed=0, sublayerwise_tuning=True, num_tokens=100000, lam_pred=1.0, lam_rep=0.00025, mu=64.0, T=2.0)
+01/28/2026 21:51:53 - INFO - __main__ - Seed number: 0
+01/28/2026 21:52:02 - INFO - __main__ - Num sampels: 3974
+01/28/2026 21:52:09 - INFO - __main__ - ( 0) [MHA] 7 heads pruned (6.8s)
+01/28/2026 21:52:14 - INFO - __main__ - ( 0) [FFN] 1077 neurons pruned (4.3s)
+01/28/2026 21:52:18 - INFO - __main__ - ( 1) [MHA] 5 heads pruned (4.1s)
+01/28/2026 21:52:22 - INFO - __main__ - ( 1) [FFN] 917 neurons pruned (4.2s)
+01/28/2026 21:52:26 - INFO - __main__ - ( 2) [MHA] 0 heads pruned (4.1s)
+01/28/2026 21:52:30 - INFO - __main__ - ( 2) [FFN] 844 neurons pruned (4.3s)
+01/28/2026 21:52:34 - INFO - __main__ - ( 3) [MHA] 0 heads pruned (3.9s)
+01/28/2026 21:52:38 - INFO - __main__ - ( 3) [FFN] 1054 neurons pruned (4.1s)
+01/28/2026 21:52:42 - INFO - __main__ - ( 4) [MHA] 2 heads pruned (3.9s)
+01/28/2026 21:52:46 - INFO - __main__ - ( 4) [FFN] 1680 neurons pruned (3.9s)
+01/28/2026 21:52:50 - INFO - __main__ - ( 5) [MHA] 0 heads pruned (3.7s)
+01/28/2026 21:52:54 - INFO - __main__ - ( 5) [FFN] 947 neurons pruned (3.7s)
+01/28/2026 21:52:54 - INFO - __main__ - Time for K-prune: 51.049
+01/28/2026 21:52:59 - INFO - __main__ - * FLOPs: 2.15 -> 1.50 (30.0024%)| acc: 0.9151
+01/28/2026 21:59:28 - INFO - __main__ - Namespace(model_name='../models/tinybertmodels/distilled_tinybert_6l_sst2', task_name='sst2', ckpt_dir='../models/tinybertmodels/distilled_tinybert_6l_sst2', exp_name='outputs/pruned_tinybert_sst2', gpu=0, constraint=0.1, seed=0, sublayerwise_tuning=False, num_tokens=100000, lam_pred=1.0, lam_rep=0.00025, mu=64.0, T=1.0)
+01/28/2026 21:59:28 - INFO - __main__ - Seed number: 0
+01/28/2026 21:59:34 - INFO - __main__ - Num sampels: 3974
+01/28/2026 21:59:41 - INFO - __main__ - ( 0) [MHA] 4 heads pruned (6.1s)
+01/28/2026 21:59:44 - INFO - __main__ - ( 0) [FFN] 307 neurons pruned (3.8s)
+01/28/2026 21:59:48 - INFO - __main__ - ( 1) [MHA] 0 heads pruned (3.7s)
+01/28/2026 21:59:52 - INFO - __main__ - ( 1) [FFN] 240 neurons pruned (3.8s)
+01/28/2026 21:59:56 - INFO - __main__ - ( 2) [MHA] 0 heads pruned (3.8s)
+01/28/2026 22:00:00 - INFO - __main__ - ( 2) [FFN] 213 neurons pruned (4.1s)
+01/28/2026 22:00:04 - INFO - __main__ - ( 3) [MHA] 0 heads pruned (3.9s)
+01/28/2026 22:00:08 - INFO - __main__ - ( 3) [FFN] 256 neurons pruned (4.0s)
+01/28/2026 22:00:12 - INFO - __main__ - ( 4) [MHA] 1 heads pruned (4.0s)
+01/28/2026 22:00:16 - INFO - __main__ - ( 4) [FFN] 667 neurons pruned (4.1s)
+01/28/2026 22:00:20 - INFO - __main__ - ( 5) [MHA] 0 heads pruned (4.1s)
+01/28/2026 22:00:24 - INFO - __main__ - ( 5) [FFN] 447 neurons pruned (4.1s)
+01/28/2026 22:00:24 - INFO - __main__ - Time for K-prune: 49.799
+01/28/2026 22:00:28 - INFO - __main__ - * FLOPs: 2.15 -> 1.93 (10.0021%)| acc: 0.9163

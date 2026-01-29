@@ -1,0 +1,13 @@
+01/26/2026 13:16:27 - INFO - __main__ - Namespace(model_name='../models/tinybertmodels/distilled_tinybert_6l_cola', task_name='sst2', ckpt_dir='../tinybert_general', exp_name='tinybert_kprune', gpu=0, constraint=0.3, seed=0, sublayerwise_tuning=False, num_tokens=100000, lam_pred=1.0, lam_rep=1e-05, mu=64.0, T=2.0)
+01/26/2026 13:16:27 - INFO - __main__ - Seed number: 0
+01/26/2026 13:16:35 - INFO - __main__ - Num sampels: 3974
+01/26/2026 13:16:39 - INFO - __main__ - ( 0) [MHA] 0 heads pruned (3.0s)
+01/26/2026 13:16:41 - INFO - __main__ - ( 0) [FFN] 271 neurons pruned (2.0s)
+01/26/2026 13:16:43 - INFO - __main__ - ( 1) [MHA] 0 heads pruned (1.9s)
+01/26/2026 13:16:44 - INFO - __main__ - ( 1) [FFN] 476 neurons pruned (1.9s)
+01/26/2026 13:16:46 - INFO - __main__ - ( 2) [MHA] 0 heads pruned (1.8s)
+01/26/2026 13:16:48 - INFO - __main__ - ( 2) [FFN] 762 neurons pruned (1.8s)
+01/26/2026 13:16:50 - INFO - __main__ - ( 3) [MHA] 1 heads pruned (1.8s)
+01/26/2026 13:16:52 - INFO - __main__ - ( 3) [FFN] 656 neurons pruned (1.8s)
+01/26/2026 13:16:52 - INFO - __main__ - Time for K-prune: 16.088
+01/26/2026 13:16:57 - INFO - __main__ - * FLOPs: 0.23 -> 0.16 (30.0014%)| acc: 0.4174
