@@ -16,7 +16,7 @@ requests
 
 # HuggingFace deps (pin for compatibility)
 pyarrow==12.0.1
-protobuf<4.0
+protobuf>4.3
 fsspec==2023.6.0
 dill==0.3.7
 multiprocess==0.70.15
