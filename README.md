@@ -264,3 +264,15 @@ python task_distill.py --do_eval --student_model models/tinybert_6l_smart_init_s
 python task_distill.py --do_eval --student_model models/tinybert_6l_smart_init_mrpc --data_dir data/glue_data/MRPC --task_name mrpc --do_lower_case --eval_batch_size 32 --max_seq_length 128 --output_dir tmp
 ```
 
+### Quantization
+
+In addition to pruning and smart initialization, *post-training quantization* of
+a task-distilled TinyBERT model was attempted (unsuccessfully). The code
+regarding quantization can be found on the corresponding `quantization` branch
+which was not merged into `main`.
+
+#### References
+
+The following paper describes quantization of the TinyBERT model updating weight values to 16 bit floating point numbers, however the resulting model was not evaluated using the *GLUE* benchmark:
+
+> [TYMBERT: Tiny Yet Mighty– Fine-Tuned and Compressed TinyBERT for High-Accuracy, Low-Resource NLP](https://ieeexplore.ieee.org/abstract/document/11160230)
